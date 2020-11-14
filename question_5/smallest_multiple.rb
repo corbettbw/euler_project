@@ -18,62 +18,18 @@ def findPrimeFactorsofaNumber(number)
     return listofprimefactors
   end
   
-  def findFactorsOfLeastCommonMultipleOfASequence(greatestNumberInASequence)
-    factorsOfLeastCommonMultiple = []
-    greatestNumberInASequence.downto(2) do |i|
-      primeFactors = findPrimeFactorsofaNumber(i)
-      primeFactors.uniq.each do |u|
-        while factorsOfLeastCommonMultiple.count(u) < primeFactors.count(u)
-          factorsOfLeastCommonMultiple.push u
-        end
+  def findLCM(start,finish)
+    if start <= 1
+      start = 2
+    end
+    lcm = 1
+    start.upto(finish) do |number|
+      primeFactors = findPrimeFactorsofaNumber(number).reverse
+      while lcm % number != 0
+        lcm *= primeFactors.pop
       end
     end
-    return factorsOfLeastCommonMultiple.sort
+    return lcm
   end
-  
-  def findLeastCommonMultipleOfASequence(greatestNumberInASequence)
-    product = 1
-    findFactorsOfLeastCommonMultipleOfASequence(greatestNumberInASequence).each do |factor|
-      product *= factor
-    end
-    return product
-  end
-  
-  findLeastCommonMultipleOfASequence(1000)
-  
-  On Mon, Jan 20, 2020 at 3:26 PM Corbett W <corbettbw@gmail.com> wrote:
-  def primeFactorsofaNumber(number)
-    listofprimefactors = []
-    possiblePrime = 2
-    while number > 1 
-      if number % possiblePrime == 0
-        number /= possiblePrime
-        listofprimefactors.push possiblePrime
-      elsif number % possiblePrime != 0
-        possiblePrime += 1
-      end
-    end
-    return listofprimefactors
-  end
-  
-  def findPrimeFactorsOfLeastCommonMultipleInASequence(greatestNumberInASequence)
-    factorsOfLowestCommonMultiple = []
-    greatestNumberInASequence.downto(2) do |i|
-      primeFactors = primeFactorsofaNumber(i)
-      primeFactors.uniq.each do |u|
-        while factorsOfLowestCommonMultiple.count(u) < primeFactors.count(u)
-          factorsOfLowestCommonMultiple.push u
-        end
-      end
-    end
-    return factorsOfLowestCommonMultiple
-  end
-  
-  product = 1
-  
-  factors = findPrimeFactorsOfLeastCommonMultipleInASequence(20).sort!
-  factors.each do |n| 
-    puts n
-    product *= n
-  end
-  puts product
+
+  puts findLCM(1,10)
